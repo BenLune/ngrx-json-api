@@ -447,11 +447,12 @@ export class NgrxJsonApiService extends NgrxJsonApiZoneService {
   }
 
   public denormaliseResource(
-    storeResource$: Observable<StoreResource | StoreResource[]>
+    storeResource$: Observable<StoreResource | StoreResource[]>,
+    zoneId: string = null
   ): Observable<StoreResource | StoreResource[]> {
     return storeResource$.combineLatest(
       this.store
-        .let(selectNgrxJsonApiZone(this.zoneId))
+        .let(selectNgrxJsonApiZone(zoneId ? zoneId : this.zoneId))
         .map(state => state.data),
       (
         storeResource: StoreResource | StoreResource[],
